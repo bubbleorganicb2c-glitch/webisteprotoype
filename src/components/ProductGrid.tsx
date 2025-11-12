@@ -195,7 +195,7 @@ export default function ProductGrid({ selectedCategory }: ProductGridProps) {
     <div className="py-8 pb-16 bg-[#e7efd8]/60 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Product grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredProducts.map((product) => {
             const selectedIndex = selectedWeights[product.id] ?? 0;
             const selectedWeight = product.weights[selectedIndex];

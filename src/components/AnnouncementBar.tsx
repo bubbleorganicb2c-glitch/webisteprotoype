@@ -5,18 +5,18 @@ export default function AnnouncementBar() {
   return (
     <div className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center justify-center h-10 text-sm text-green-900">
+        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 sm:gap-0 py-2 text-sm text-green-900 relative">
           
           {/* Centered text */}
-          <div className="flex items-center gap-2 text-center">
+          <div className="flex items-center gap-2 text-center justify-center">
             <Gift className="w-5 h-5 text-green-700 flex-shrink-0" />
-            <p className="text-sm md:text-base font-medium">
+            <p className="text-sm md:text-base font-medium whitespace-nowrap">
               Welcome Offer for New Users!
             </p>
           </div>
 
-          {/* Right-aligned icons (smaller on mobile) */}
-          <div className="absolute right-3 flex items-center gap-3 sm:gap-4 scale-90 sm:scale-100">
+          {/* Icons – stacked below text on mobile */}
+          <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-4 mt-1 sm:mt-0">
             <a
               href="https://instagram.com"
               target="_blank"
