@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Search, Heart, User, ShoppingCart, ChevronDown, X, Menu } from 'lucide-react';
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -46,9 +47,9 @@ export default function Navigation(props: any) {
 
             {/* Desktop Links */}
             <nav className="hidden md:flex items-center gap-6">
-              <a href="#home" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
+              <Link to="/" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
                 Home
-              </a>
+              </Link>
 
             {/* Explore Products Dropdown */}
             <div
@@ -72,43 +73,43 @@ export default function Navigation(props: any) {
                   >
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       {categories.map(cat => (
-                        <a
+                        <Link
                           key={cat.slug}
-                          href={`#${cat.slug}`}
+                          to={`/#${cat.slug}`}
                           className="text-gray-700 hover:text-green-700 hover:font-semibold transition-all hover:scale-105"
                         >
                           {cat.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                     <div className="border-t border-gray-200 pt-4">
-                      <a
-                        href="#products"
+                      <Link
+                        to="/#products"
                         className="text-green-700 font-semibold hover:text-green-800 flex items-center gap-2 transition-all hover:scale-105"
                       >
                         View All Products →
-                      </a>
+                      </Link>
                     </div>
                     <div className="mt-4 pt-4 border-t border-gray-200">
                       <p className="text-xs font-semibold text-gray-500 mb-3">BO SPECIAL PRODUCTS</p>
-                      <a
-                        href="#"
+                      <Link
+                        to="/#special"
                         className="block text-green-700 font-semibold hover:text-green-800 transition-all hover:scale-105"
                       >
                         Organic Bestsellers
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )}
               </div>
 
 
-              <a href="#about" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
+              <Link to="/#about" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
                 About Us
-              </a>
-              <a href="#blog" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
+              </Link>
+              <Link to="/#blog" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
                 Blog
-              </a>
+              </Link>
             </nav>
           </div>
 
@@ -154,9 +155,9 @@ export default function Navigation(props: any) {
       {/* Mobile Menu */}
       <div className={`md:hidden bg-white border-t border-gray-200 overflow-hidden transition-all duration-300 ${mobileMenuOpen ? 'max-h-screen p-4' : 'max-h-0 p-0'}`}>
         <div className="flex flex-col gap-4">
-          <a href="#home" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
+          <Link to="/" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
             Home
-          </a>
+          </Link>
 
           {/* Mobile Explore Products */}
           <div className="relative">
@@ -170,30 +171,30 @@ export default function Navigation(props: any) {
             {isDropdownOpen && (
               <div className="mt-2 bg-white rounded-lg shadow-lg p-4 grid grid-cols-1 gap-2 transition-all animate-slide-down">
                 {categories.map(cat => (
-                  <a
+                  <Link
                     key={cat.slug}
-                    href={`#${cat.slug}`}
+                    to={`/#${cat.slug}`}
                     className="text-gray-700 hover:text-green-700 hover:font-semibold transition-all hover:scale-105"
                   >
                     {cat.name}
-                  </a>
+                  </Link>
                 ))}
-                <a
-                  href="#products"
+                <Link
+                  to="/#products"
                   className="text-green-700 font-semibold hover:text-green-800 flex items-center gap-2 mt-2 transition-all hover:scale-105"
                 >
                   View All Products →
-                </a>
+                </Link>
               </div>
             )}
           </div>
 
-          <a href="#about" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
+          <Link to="/#about" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
             About Us
-          </a>
-          <a href="#blog" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
+          </Link>
+          <Link to="/#blog" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
             Blog
-          </a>
+          </Link>
 
           {/* Mobile Icons */}
           <div className="flex items-center gap-4 mt-4">

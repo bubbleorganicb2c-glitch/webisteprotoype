@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useFavourites } from "../context/FavouritesContext";
 import { useSearch } from "../context/SearchContext";
@@ -26,18 +27,14 @@ export default function ProductGrid({
   const [selectedWeights, setSelectedWeights] = useState<{ [key: number]: number }>({});
   const [animatePrice, setAnimatePrice] = useState<{ [key: number]: boolean }>({});
   const [addedToCart, setAddedToCart] = useState<{ [key: number]: boolean }>({});
+  const [quantities, setQuantities] = useState<{ [key: number]: number }>({});
 
-  // filter by selectedCategory and search query
-  const q = (query ?? "").trim().toLowerCase();
+  // filter by selectedCategory only (search is now handled in SearchModal)
   const filteredProducts = (products ?? PRODUCTS).filter((p) => {
     if (selectedCategory && selectedCategory !== "All Products" && p.category !== selectedCategory) {
       return false;
     }
-    if (!q) return true;
-    if (p.name.toLowerCase().includes(q)) return true;
-    if (p.category.toLowerCase().includes(q)) return true;
-    if (p.weights.some(w => w.label.toLowerCase().includes(q))) return true;
-    return false;
+    return true;
   });
 
   const handleWeightChange = (productId: number, index: number) => {
@@ -49,9 +46,15 @@ export default function ProductGrid({
     }, 300);
   };
 
+  const handleQuantityChange = (productId: number, newQuantity: number) => {
+    if (newQuantity < 1) return; // Minimum quantity is 1
+    setQuantities((prev) => ({ ...prev, [productId]: newQuantity }));
+  };
+
   const handleAddToCart = (product: ProductModel) => {
     const selectedIndex = selectedWeights[product.id] ?? 0;
     const weightOption = product.weights[selectedIndex];
+    const quantity = quantities[product.id] ?? 1;
 
     // Use a composite id so different weight options are distinct in cart
     const cartId = `${product.id}-${weightOption.label}`;
@@ -60,7 +63,7 @@ export default function ProductGrid({
       id: cartId,
       name: `${product.name} (${weightOption.label})`,
       price: Number(weightOption.price ?? 0),
-      qty: 1,
+      qty: quantity,
     });
 
     // UI feedback
@@ -81,9 +84,10 @@ export default function ProductGrid({
             const isFav = favouriteIds.includes(String(product.id));
 
             return (
-              <div
+              <Link
                 key={product.id}
-                className="bg-white/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/50 hover:shadow-2xl transition-all transform hover:scale-[1.03] hover:bg-white/60"
+                to={`/product/${product.id}`}
+                className="block bg-white/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/50 hover:shadow-2xl transition-all transform hover:scale-[1.03] hover:bg-white/60"
               >
                 <div className="aspect-square overflow-hidden">
                   <img
@@ -119,6 +123,29 @@ export default function ProductGrid({
                     })}
                   </div>
 
+                  {/* Quantity Selector */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-600">Qty:</span>
+                      <div className="flex items-center border rounded">
+                        <button
+                          onClick={() => handleQuantityChange(product.id, (quantities[product.id] ?? 1) - 1)}
+                          className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                          disabled={(quantities[product.id] ?? 1) <= 1}
+                        >
+                          -
+                        </button>
+                        <span className="px-3 py-1 text-sm">{quantities[product.id] ?? 1}</span>
+                        <button
+                          onClick={() => handleQuantityChange(product.id, (quantities[product.id] ?? 1) + 1)}
+                          className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Price + Cart + Favourite */}
                   <div className="flex items-center justify-between">
                     <span
@@ -126,7 +153,7 @@ export default function ProductGrid({
                         animatePrice[product.id] ? "opacity-0" : "opacity-100"
                       }`}
                     >
-                      ₹{selectedWeight.price}
+                      ₹{selectedWeight.price * (quantities[product.id] ?? 1)}
                     </span>
 
                     <div className="flex items-center gap-3">
@@ -158,7 +185,7 @@ export default function ProductGrid({
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>
