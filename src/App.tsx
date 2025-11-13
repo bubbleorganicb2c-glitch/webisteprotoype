@@ -11,6 +11,7 @@ import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { FavouritesProvider } from "./context/FavouritesContext";
 import { SearchProvider } from "./context/SearchContext";
+import ScrollUpButton from './components/ScrollUpButton';
 
 import { CartDrawer } from "./components/ui/CartDrawer";
 import { LoginModal } from "./components/ui/LoginModal";
@@ -39,6 +40,7 @@ function App() {
               <BlogCarousel />
               <Partnership />
               <Footer />
+              <ScrollUpButton />
               <CartDrawer />
               <LoginModal />
               <FavouritesDrawer />
@@ -46,9 +48,9 @@ function App() {
             </div>
           </CartProvider>
         </FavouritesProvider>
-        </AuthProvider>
-        </SearchProvider>
-    );
+      </AuthProvider>
+    </SearchProvider>
+  );
 }
 
 export default App;
