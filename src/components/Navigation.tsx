@@ -1,5 +1,10 @@
+import React from "react";
 import { useState } from 'react';
 import { Search, Heart, User, ShoppingCart, ChevronDown, X, Menu } from 'lucide-react';
+import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
+import { useFavourites } from "../context/FavouritesContext";
+import { useSearch } from "../context/SearchContext";
 
 const categories = [
   { name: 'Spices', slug: 'spices' },
@@ -14,13 +19,18 @@ const categories = [
   { name: 'Bubble Organic Special Products', slug: 'bubble-organic-special-products' },
 ];
 
-export default function Navigation() {
+export default function Navigation(props: any) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const [showCart, setShowCart] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showWishlist, setShowWishlist] = useState(false);
+  // UI state for dropdowns/menus only; modals/drawers are handled via context providers
+
+  const { openCart, items } = useCart();
+  const { openLogin, user } = useAuth();
+  const { openFavourites, ids: favIds } = useFavourites();
+  const { openSearch } = useSearch();
+
+  const cartCount = items?.length ?? 0;
+  const favouritesCount = favIds?.length ?? 0;
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -104,23 +114,31 @@ export default function Navigation() {
 
           {/* Desktop Icons */}
           <div className="hidden md:flex items-center gap-6">
-            {[{icon: Search, action: () => setShowSearch(!showSearch)}, 
-              {icon: Heart, action: () => setShowWishlist(!showWishlist)}, 
-              {icon: User, action: () => setShowLogin(!showLogin)}, 
-              {icon: ShoppingCart, action: () => setShowCart(!showCart), badge: true}].map((item, idx) => (
-              <button
-                key={idx}
-                onClick={item.action}
-                className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative"
-              >
-                <item.icon size={22} />
-                {item.badge && (
-                  <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    0
-                  </span>
-                )}
-              </button>
-            ))}
+            <button onClick={() => openSearch()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <Search size={22} />
+            </button>
+
+            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <Heart size={22} />
+              {favouritesCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {favouritesCount}
+                </span>
+              )}
+            </button>
+
+            <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <User size={22} />
+            </button>
+
+            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <ShoppingCart size={22} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </div>
 
           {/* Mobile Hamburger */}
@@ -179,52 +197,36 @@ export default function Navigation() {
 
           {/* Mobile Icons */}
           <div className="flex items-center gap-4 mt-4">
-            {[{icon: Search, action: () => setShowSearch(!showSearch)}, 
-              {icon: Heart, action: () => setShowWishlist(!showWishlist)}, 
-              {icon: User, action: () => setShowLogin(!showLogin)}, 
-              {icon: ShoppingCart, action: () => setShowCart(!showCart), badge: true}].map((item, idx) => (
-              <button
-                key={idx}
-                onClick={item.action}
-                className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative"
-              >
-                <item.icon size={22} />
-                {item.badge && (
-                  <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    0
-                  </span>
-                )}
-              </button>
-            ))}
+            <button onClick={() => openSearch()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <Search size={22} />
+            </button>
+
+            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <Heart size={22} />
+              {favouritesCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {favouritesCount}
+                </span>
+              )}
+            </button>
+
+            <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <User size={22} />
+            </button>
+
+            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+              <ShoppingCart size={22} />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Optional modals */}
-      {showSearch && (
-        <div className="absolute top-20 left-0 w-full bg-gray-100 p-4 border-t border-gray-200 z-40 animate-slide-down">
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-        </div>
-      )}
-      {showCart && (
-        <div className="absolute top-20 right-0 w-64 bg-white border border-gray-200 shadow-lg p-4 z-40 animate-slide-down">
-          <p className="text-gray-700">Your cart is empty.</p>
-        </div>
-      )}
-      {showLogin && (
-        <div className="absolute top-20 right-0 w-64 bg-white border border-gray-200 shadow-lg p-4 z-40 animate-slide-down">
-          <p className="text-gray-700">Login form goes here.</p>
-        </div>
-      )}
-      {showWishlist && (
-        <div className="absolute top-20 right-0 w-64 bg-white border border-gray-200 shadow-lg p-4 z-40 animate-slide-down">
-          <p className="text-gray-700">Your wishlist is empty.</p>
-        </div>
-      )}
+      {/* Modals/drawers are provided globally via context and rendered in App */}
     </header>
   );
 }

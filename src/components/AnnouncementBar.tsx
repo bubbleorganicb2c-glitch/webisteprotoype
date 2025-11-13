@@ -5,18 +5,24 @@ export default function AnnouncementBar() {
   return (
     <div className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 sm:gap-0 py-2 text-sm text-green-900 relative">
-          
+        {/* Use column flow on mobile and a 3-column grid on sm+ so the center item stays centered
+            and icons align to the right on tablet/desktop. */}
+        <div className="flex flex-col sm:grid sm:grid-cols-3 items-center gap-2 py-2 text-sm text-green-900">
+          {/* left placeholder only visible on sm+ to allow true center positioning */}
+          <div className="hidden sm:block" />
+
           {/* Centered text */}
-          <div className="flex items-center gap-2 text-center justify-center">
-            <Gift className="w-5 h-5 text-green-700 flex-shrink-0" />
-            <p className="text-sm md:text-base font-medium whitespace-nowrap">
-              Welcome Offer for New Users!
-            </p>
+          <div className="order-1 sm:order-2 flex justify-center">
+            <div className="flex items-center gap-2 text-center">
+              <Gift className="w-5 h-5 text-green-700 flex-shrink-0" />
+              <p className="text-sm md:text-base font-medium whitespace-nowrap">
+                Welcome Offer for New Users!
+              </p>
+            </div>
           </div>
 
-          {/* Icons – stacked below text on mobile */}
-          <div className="flex items-center justify-center sm:justify-end gap-3 sm:gap-4 mt-1 sm:mt-0">
+          {/* Icons — stacked below text on mobile, right-aligned on sm+ */}
+          <div className="order-2 sm:order-3 flex items-center justify-center sm:justify-end gap-3 sm:gap-4 mt-1 sm:mt-0">
             <a
               href="https://instagram.com"
               target="_blank"

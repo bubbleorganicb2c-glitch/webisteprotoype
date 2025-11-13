@@ -1,151 +1,44 @@
-import { useState } from 'react';
-import { ShoppingCart } from 'lucide-react';
-
+import React, { useState } from "react";
+import { useCart } from "../context/CartContext";
+import { useFavourites } from "../context/FavouritesContext";
+import { useSearch } from "../context/SearchContext";
+import { ShoppingCart } from "lucide-react";
+import { PRODUCTS, ProductModel } from "../data/products";
 
 interface WeightOption {
   label: string;
   price: number;
 }
 
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  image: string;
-  weights: WeightOption[];
-}
-
-interface CartItem {
-  id: number;
-  name: string;
-  weight: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-const products: Product[] = [
-  {
-    id: 1,
-    name: 'Black Sesame Seeds',
-    category: 'Spices',
-    image: '/products/BlackSesameseed.jpg',
-    weights: [
-      { label: '100g', price: 95 },
-      { label: '200g', price: 180 },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Idli Rice',
-    category: 'Rice',
-    image:
-      '/products/Idli-rice.jpg',
-    weights: [
-        { label: '1kg', price: 140 },
-      { label: '2kg', price: 275 },
-    ],
-  },
-  {
-    id: 3,
-    name: 'Almond',
-    category: 'Nuts',
-    image:
-      '/products/Almond.jpg',
-    weights: [
-      { label: '100g', price: 189 },
-    ],
-  },
-  {
-    id: 4,
-    name: 'Organic Red Chilli Powder',
-    category: 'Masalas',
-    image:
-      '/products/Red-chilli-powder.jpg',
-    weights: [
-      { label: '100g', price: 140 },
-      { label: '200g', price: 275 },
-    ],
-  },
-    {
-    id: 5,
-    name: 'Organic Fox Tail Millet',
-    category: 'Millets',
-    image:
-      '/products/Foxtail-millet.jpg',
-    weights: [
-      { label: '500g', price: 110 },
-      { label: '1Kg', price: 215 },
-    ],
-  },
-    {
-    id: 6,
-    name: 'Toor Dal',
-    category: 'Pulses',
-    image:
-      '/products/Toor-dal.jpg',
-    weights: [
-      { label: '500g', price: 175 },
-      { label: '1Kg', price: 275 },
-    ],
-  },
-    {
-    id: 7,
-    name: 'Green Gram',
-    category: 'Cereals',
-    image:
-      '/products/Green-gram.jpg',
-    weights: [
-      { label: '500g', price: 160 },
-      { label: '1Kg', price: 295 },
-    ],
-  },
-    {
-    id: 8,
-    name: 'Pumpkin Seeds',
-    category: 'Seeds',
-    image:
-      '/products/Pumpkin-seed.jpg',
-    weights: [
-      { label: '100g', price: 115 },
-    ],
-  },
-  {
-    id: 9,
-    name: 'Wheat Flour',
-    category: 'Flours',
-    image:
-      '/products/Wheat-flour.jpg',
-    weights: [
-      { label: '1Kg', price: 80 },
-    ],
-  },
-  {
-    id: 10,
-    name: 'Himalayan Pink Salt Crystal',
-    category: 'Bubble Organic Special Products',
-    image:
-      '/products/pink-salt-crystal.jpg',
-    weights: [
-      { label: '500g', price: 95 },
-    ],
-  },
-];
-
 interface ProductGridProps {
-  selectedCategory: string;
+  products?: ProductModel[];
+  selectedCategory?: string; // added prop
 }
 
-export default function ProductGrid({ selectedCategory }: ProductGridProps) {
-  const [cart, setCart] = useState<CartItem[]>([]);
+// use shared PRODUCTS as the default list
+export default function ProductGrid({
+  products = PRODUCTS,
+  selectedCategory = "All Products",
+}: ProductGridProps) {
+  const { addItem } = useCart();
+  const { ids: favouriteIds, toggleFavourite } = useFavourites();
+  const { query } = useSearch();
   const [selectedWeights, setSelectedWeights] = useState<{ [key: number]: number }>({});
   const [animatePrice, setAnimatePrice] = useState<{ [key: number]: boolean }>({});
   const [addedToCart, setAddedToCart] = useState<{ [key: number]: boolean }>({});
 
-  const filteredProducts =
-    selectedCategory === 'All Products'
-      ? products
-      : products.filter((p) => p.category === selectedCategory);
+  // filter by selectedCategory and search query
+  const q = (query ?? "").trim().toLowerCase();
+  const filteredProducts = (products ?? PRODUCTS).filter((p) => {
+    if (selectedCategory && selectedCategory !== "All Products" && p.category !== selectedCategory) {
+      return false;
+    }
+    if (!q) return true;
+    if (p.name.toLowerCase().includes(q)) return true;
+    if (p.category.toLowerCase().includes(q)) return true;
+    if (p.weights.some(w => w.label.toLowerCase().includes(q))) return true;
+    return false;
+  });
 
   const handleWeightChange = (productId: number, index: number) => {
     setAnimatePrice((prev) => ({ ...prev, [productId]: true }));
@@ -156,35 +49,21 @@ export default function ProductGrid({ selectedCategory }: ProductGridProps) {
     }, 300);
   };
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (product: ProductModel) => {
     const selectedIndex = selectedWeights[product.id] ?? 0;
     const weightOption = product.weights[selectedIndex];
 
-    setCart((prevCart) => {
-      const existingItemIndex = prevCart.findIndex(
-        (item) => item.id === product.id && item.weight === weightOption.label
-      );
+    // Use a composite id so different weight options are distinct in cart
+    const cartId = `${product.id}-${weightOption.label}`;
 
-      if (existingItemIndex > -1) {
-        const updatedCart = [...prevCart];
-        updatedCart[existingItemIndex].quantity += 1;
-        return updatedCart;
-      }
-
-      return [
-        ...prevCart,
-        {
-          id: product.id,
-          name: product.name,
-          weight: weightOption.label,
-          price: weightOption.price,
-          quantity: 1,
-          image: product.image,
-        },
-      ];
+    addItem({
+      id: cartId,
+      name: `${product.name} (${weightOption.label})`,
+      price: Number(weightOption.price ?? 0),
+      qty: 1,
     });
 
-    // Show temporary feedback animation
+    // UI feedback
     setAddedToCart((prev) => ({ ...prev, [product.id]: true }));
     setTimeout(() => {
       setAddedToCart((prev) => ({ ...prev, [product.id]: false }));
@@ -199,6 +78,7 @@ export default function ProductGrid({ selectedCategory }: ProductGridProps) {
           {filteredProducts.map((product) => {
             const selectedIndex = selectedWeights[product.id] ?? 0;
             const selectedWeight = product.weights[selectedIndex];
+            const isFav = favouriteIds.includes(String(product.id));
 
             return (
               <div
@@ -229,8 +109,8 @@ export default function ProductGrid({ selectedCategory }: ProductGridProps) {
                           onClick={() => handleWeightChange(product.id, index)}
                           className={`px-3 py-1 text-sm rounded-full border transition-all duration-200 ${
                             isActive
-                              ? 'bg-green-700 text-white border-green-700 shadow-md'
-                              : 'border-green-400 text-green-800 hover:bg-green-100'
+                              ? "bg-green-700 text-white border-green-700 shadow-md"
+                              : "border-green-400 text-green-800 hover:bg-green-100"
                           }`}
                         >
                           {w.label}
@@ -239,31 +119,43 @@ export default function ProductGrid({ selectedCategory }: ProductGridProps) {
                     })}
                   </div>
 
-                  {/* Price + Cart */}
+                  {/* Price + Cart + Favourite */}
                   <div className="flex items-center justify-between">
                     <span
                       className={`text-xl font-bold text-green-800 transition-opacity duration-300 ${
-                        animatePrice[product.id] ? 'opacity-0' : 'opacity-100'
+                        animatePrice[product.id] ? "opacity-0" : "opacity-100"
                       }`}
                     >
                       ₹{selectedWeight.price}
                     </span>
 
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      className={`relative bg-green-700 text-white p-2 rounded-full transition-all transform hover:scale-110 ${
-                        addedToCart[product.id]
-                          ? 'bg-green-800 scale-125 shadow-lg'
-                          : 'hover:bg-green-800'
-                      }`}
-                    >
-                      <ShoppingCart size={20} />
-                      {addedToCart[product.id] && (
-                        <span className="absolute -top-2 -right-2 bg-white text-green-800 text-xs font-bold px-1.5 py-0.5 rounded-full">
-                          +
-                        </span>
-                      )}
-                    </button>
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => toggleFavourite(String(product.id))}
+                        className={`text-xl p-2 rounded-full transition-colors ${
+                          isFav ? "text-red-500" : "text-gray-400 hover:text-red-400"
+                        }`}
+                        aria-label={isFav ? "Remove from favourites" : "Add to favourites"}
+                        title={isFav ? "Remove from favourites" : "Add to favourites"}
+                      >
+                        {isFav ? "♥" : "♡"}
+                      </button>
+
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className={`relative bg-green-700 text-white p-2 rounded-full transition-all transform hover:scale-110 ${
+                          addedToCart[product.id] ? "bg-green-800 scale-125 shadow-lg" : "hover:bg-green-800"
+                        }`}
+                        aria-label={`Add ${product.name} to cart`}
+                      >
+                        <ShoppingCart size={20} />
+                        {addedToCart[product.id] && (
+                          <span className="absolute -top-2 -right-2 bg-white text-green-800 text-xs font-bold px-1.5 py-0.5 rounded-full">
+                            +
+                          </span>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
