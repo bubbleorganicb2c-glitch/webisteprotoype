@@ -7,6 +7,7 @@ import ProductGrid from './components/ProductGrid';
 import BlogCarousel from './components/BlogCarousel';
 import Partnership from './components/Partnership';
 import Footer from './components/Footer';
+import Certifications from './components/Certifications';
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { FavouritesProvider } from "./context/FavouritesContext";
@@ -38,6 +39,7 @@ function App() {
               <CategoryFilter onSelectCategory={setSelectedCategory} />
               <ProductGrid selectedCategory={selectedCategory} />
               <BlogCarousel />
+              <Certifications />
               <Partnership />
               <Footer />
               <ScrollUpButton />
