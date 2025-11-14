@@ -84,18 +84,20 @@ export default function ProductGrid({
             const isFav = favouriteIds.includes(String(product.id));
 
             return (
-              <Link
+              <div
                 key={product.id}
-                to={`/product/${product.id}`}
                 className="block bg-white/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/50 hover:shadow-2xl transition-all transform hover:scale-[1.03] hover:bg-white/60"
               >
-                <div className="aspect-square overflow-hidden">
+                <Link
+                  to={`/product/${product.id}`}
+                  className="block aspect-square overflow-hidden"
+                >
                   <img
                     src={product.image}
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                   />
-                </div>
+                </Link>
 
                 <div className="p-4 sm:p-5">
                   <p className="text-sm text-green-700 mb-1">{product.category}</p>
@@ -185,7 +187,7 @@ export default function ProductGrid({
                     </div>
                   </div>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>

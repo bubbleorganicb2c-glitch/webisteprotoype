@@ -90,7 +90,7 @@ function ProductDetails() {
 
       <Navigation />
 
-      <div className="pt-32 pb-16 bg-[#e7efd8]/60 backdrop-blur-md min-h-screen">
+      <div className="pt-19 pb-16 bg-[#e7efd8]/60 backdrop-blur-md min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Button */}
           <Link
@@ -103,13 +103,44 @@ function ProductDetails() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
             {/* Product Image */}
-            <div className="bg-white/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/50">
-              <div className="aspect-square overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
+            <div className="space-y-4">
+              <div className="bg-white/40 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/50">
+                <div className="aspect-square overflow-hidden">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Additional Images */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/40 backdrop-blur-lg rounded-xl overflow-hidden border border-white/50 aspect-square">
+                  <img
+                    src={product.additionalImages[0]}
+                    alt={`${product.name} view 1`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="bg-white/40 backdrop-blur-lg rounded-xl overflow-hidden border border-white/50 aspect-square">
+                  <img
+                    src={product.additionalImages[1]}
+                    alt={`${product.name} view 2`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Product Information */}
+              <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50 max-w-sm mx-auto">
+                <h3 className="text-lg font-semibold text-green-900 mb-4">Product Information</h3>
+                <div className="space-y-3 text-gray-700">
+                  <p><strong>Category:</strong> {product.category}</p>
+                  <p><strong>Origin:</strong> Organic farms in India</p>
+                  <p><strong>Quality:</strong> Organic, Chemical-free</p>
+                  <p><strong>Storage:</strong> Store in a cool, dry place</p>
+                </div>
               </div>
             </div>
 
@@ -234,18 +265,10 @@ function ProductDetails() {
                 </div>
               )}
 
-              {/* Additional Info */}
-              <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50">
-                <h3 className="text-lg font-semibold text-green-900 mb-4">Product Information</h3>
-                <div className="space-y-3 text-gray-700">
-                  <p><strong>Category:</strong> {product.category}</p>
-                  <p><strong>Origin:</strong> Organic farms in India</p>
-                  <p><strong>Quality:</strong> 100% Organic, Chemical-free</p>
-                  <p><strong>Storage:</strong> Store in a cool, dry place</p>
-                </div>
-              </div>
             </div>
           </div>
+
+
 
           {/* Related Products */}
           <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50">

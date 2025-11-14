@@ -40,10 +40,10 @@ export default function Navigation(props: any) {
 
           {/* Logo + Left Links */}
           <div className="flex items-center gap-8">
-            <div className="flex items-center gap-3">
+            <Link to="/" className="flex items-center gap-3">
               <img src="/b2clogo.jpg" alt="Bubble Organic" className="h-16 w-16 object-contain" />
               <span className="text-2xl font-bold text-green-800">Bubble Organic</span>
-            </div>
+            </Link>
 
             {/* Desktop Links */}
             <nav className="hidden md:flex items-center gap-6">
@@ -115,11 +115,11 @@ export default function Navigation(props: any) {
 
           {/* Desktop Icons */}
           <div className="hidden md:flex items-center gap-6">
-            <button onClick={() => openSearch()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openSearch()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Search products">
               <Search size={22} />
             </button>
 
-            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="View favourites">
               <Heart size={22} />
               {favouritesCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -128,11 +128,11 @@ export default function Navigation(props: any) {
               )}
             </button>
 
-            <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="User account">
               <User size={22} />
             </button>
 
-            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Shopping cart">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -198,11 +198,11 @@ export default function Navigation(props: any) {
 
           {/* Mobile Icons */}
           <div className="flex items-center gap-4 mt-4">
-            <button onClick={() => openSearch()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openSearch()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Search products">
               <Search size={22} />
             </button>
 
-            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="View favourites">
               <Heart size={22} />
               {favouritesCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -211,11 +211,11 @@ export default function Navigation(props: any) {
               )}
             </button>
 
-            <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="User account">
               <User size={22} />
             </button>
 
-            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative">
+            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Shopping cart">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">

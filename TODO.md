@@ -1,4 +1,3 @@
-# TODO: Add Scroll to Top on ProductDetails Page
+# TODO List
 
-- [x] Import useEffect in ProductDetails.tsx
-- [x] Add useEffect hook to scroll to top on component mount
+- [x] Make logo and "Bubble Organic" text in Navigation.tsx redirect to home page by wrapping them in a Link component
