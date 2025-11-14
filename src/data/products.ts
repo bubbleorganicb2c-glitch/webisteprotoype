@@ -10,6 +10,7 @@ export interface ProductModel {
   image: string;
   additionalImages: string[];
   weights: WeightOption[];
+  about?: string;
   description?: string;
   howToUse?: string;
   videoUrl?: string;
@@ -23,9 +24,10 @@ export const PRODUCTS: ProductModel[] = [
     image: "/products/BlackSesameseed.jpg",
     additionalImages: ["/product-back/Black-Sesame-Seeds-Back.png", "/logos/certificate-product-logo.jpg"],
     weights: [{ label: "100g", price: 95 }, { label: "200g", price: 180 }],
-    description: "Premium quality black sesame seeds sourced from organic farms. Rich in calcium, iron, and healthy fats. Perfect for adding crunch and nutrition to your meals.",
-    howToUse: "Sprinkle on salads, yogurt, or baked goods. Can be used in cooking, baking, or as a topping for various dishes. Store in a cool, dry place.",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+    about: "Black Sesame seed phytosterols lower cholesterol are good source of fiber with nutty flavor, it is called the queen of oil seeds delight gift from nature, it has number of benefits, it widens metabolic function, especially facilitates hair and skin health, it is generous quantity of vitamins and also its absorption. ",
+    description: "Bubble Organic Black Sesame seed are more diverse, extremely well-known ingredient in all cuisine, especially Indians. Our vision is to provide the highest quality of organic products for genuine price. Our products are special because there is no refine or products gone under polishing process and no addition of artificial aroma. We take great delight to ensure the nutrient substance in food and its organic taste. Real organic products undergo traditional process of harvest where farmer has the practices of making the grains, pulses, rise etc., to dry directly under sunlight and processing by beating the grains for removing the pods by cracking and scratching for removing husk and outer covering, cleaning by natural way for removing soil and stone or winnowing method used to remove skins. Our products are made from premium quality; undergo austere and accurate laboratory ordeal to meet FSSAI food safety standard norm. Our products are packed in good hygienic condition.",
+    howToUse: "Black Sesame seed are magnificent spice can be use directly in our dishes. Fresh and roasted seeds are used commonly in snacks and also in traditional foods; it is common in continental foods for incredible flavors. These tiny seeds are used as topping on breadsticks and burger buns.",
+    videoUrl: "https://www.youtube.com/embed/nKvjdbTeGjQ"
   },
   {
     id: 2,

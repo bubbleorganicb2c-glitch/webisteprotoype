@@ -132,16 +132,21 @@ function ProductDetails() {
                 </div>
               </div>
 
-              {/* Product Information */}
-              <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50 max-w-sm mx-auto">
-                <h3 className="text-lg font-semibold text-green-900 mb-4">Product Information</h3>
-                <div className="space-y-3 text-gray-700">
-                  <p><strong>Category:</strong> {product.category}</p>
-                  <p><strong>Origin:</strong> Organic farms in India</p>
-                  <p><strong>Quality:</strong> Organic, Chemical-free</p>
-                  <p><strong>Storage:</strong> Store in a cool, dry place</p>
+              {/* YouTube Video */}
+              {product.videoUrl && (
+                <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50 max-w-lg mx-auto">
+                  <h3 className="text-lg font-semibold text-green-900 mb-4">Product Video</h3>
+                  <div className="aspect-video rounded-lg overflow-hidden">
+                    <iframe
+                      src={product.videoUrl}
+                      title={`${product.name} video`}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Product Details */}
@@ -149,10 +154,9 @@ function ProductDetails() {
               <div>
                 <p className="text-sm text-green-700 mb-2">{product.category}</p>
                 <h1 className="text-4xl font-bold text-green-900 mb-4">{product.name}</h1>
-                <p className="text-gray-600 text-lg">
-                  Premium organic {product.name.toLowerCase()} sourced directly from trusted farmers.
-                  Packed with natural nutrients and free from harmful chemicals.
-                </p>
+                {product.description && (
+                  <p className="text-gray-600 text-lg">{product.about}</p>
+                )}
               </div>
 
               {/* Weight Selector */}
@@ -249,22 +253,6 @@ function ProductDetails() {
                 </div>
               )}
 
-              {/* YouTube Video */}
-              {product.videoUrl && (
-                <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50">
-                  <h3 className="text-lg font-semibold text-green-900 mb-4">Product Video</h3>
-                  <div className="aspect-video rounded-lg overflow-hidden">
-                    <iframe
-                      src={product.videoUrl}
-                      title={`${product.name} video`}
-                      className="w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
-                  </div>
-                </div>
-              )}
-
             </div>
           </div>
 
@@ -274,30 +262,35 @@ function ProductDetails() {
           <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50">
             <h3 className="text-xl font-semibold text-green-900 mb-6">Related Products</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {PRODUCTS.filter(p => p.id !== product.id && p.category === product.category).slice(0, 4).map((relatedProduct) => (
-                <Link
-                  key={relatedProduct.id}
-                  to={`/product/${relatedProduct.id}`}
-                  className="bg-white/60 backdrop-blur-sm rounded-lg overflow-hidden border border-white/50 hover:shadow-lg transition-all transform hover:scale-105"
-                >
-                  <div className="aspect-square overflow-hidden">
-                    <img
-                      src={relatedProduct.image}
-                      alt={relatedProduct.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-3">
-                    <p className="text-xs text-green-700 mb-1">{relatedProduct.category}</p>
-                    <h4 className="text-sm font-semibold text-green-900 mb-2 leading-tight">
-                      {relatedProduct.name}
-                    </h4>
-                    <p className="text-lg font-bold text-green-800">
-                      ₹{relatedProduct.weights[0].price}
-                    </p>
-                  </div>
-                </Link>
-              ))}
+              {(() => {
+                const sameCategoryProducts = PRODUCTS.filter(p => p.id !== product.id && p.category === product.category);
+                const otherProducts = PRODUCTS.filter(p => p.id !== product.id && p.category !== product.category);
+                const relatedProducts = [...sameCategoryProducts, ...otherProducts].slice(0, 4);
+                return relatedProducts.map((relatedProduct) => (
+                  <Link
+                    key={relatedProduct.id}
+                    to={`/product/${relatedProduct.id}`}
+                    className="bg-white/60 backdrop-blur-sm rounded-lg overflow-hidden border border-white/50 hover:shadow-lg transition-all transform hover:scale-105"
+                  >
+                    <div className="aspect-[4/3] overflow-hidden">
+                      <img
+                        src={relatedProduct.image}
+                        alt={relatedProduct.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-3">
+                      <p className="text-xs text-green-700 mb-1">{relatedProduct.category}</p>
+                      <h4 className="text-sm font-semibold text-green-900 mb-2 leading-tight">
+                        {relatedProduct.name}
+                      </h4>
+                      <p className="text-lg font-bold text-green-800">
+                        ₹{relatedProduct.weights[0].price}
+                      </p>
+                    </div>
+                  </Link>
+                ));
+              })() as React.ReactNode}
             </div>
           </div>
         </div>

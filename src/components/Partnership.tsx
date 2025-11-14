@@ -22,12 +22,12 @@ export default function Partnership() {
                 href={partner.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center p-4 bg-white/60 rounded-xl overflow-hidden transition-all transform hover:scale-110 hover:bg-white/80"
+                className="flex items-center justify-center p-4 bg-white/60 rounded-xl overflow-hidden transition-all transform hover:scale-110 hover:bg-white/80 active:scale-110 active:bg-white/80"
               >
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="w-24 h-24 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                  className="w-24 h-24 object-contain md:filter md:grayscale hover:grayscale-0 active:grayscale-0 transition-all duration-300"
                   loading="lazy"
                 />
               </a>
