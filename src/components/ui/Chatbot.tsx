@@ -74,6 +74,11 @@ const Chatbot: React.FC = () => {
       return 'You can reach us at support@bubbleorganic.com or call +91-XXXXXXXXXX. We\'re here to help Monday-Saturday, 9 AM to 6 PM IST.';
     }
 
+    // Nutrition calculator
+    if (message.includes('nutrition') || message.includes('calculator') || message.includes('nutrients')) {
+      return `You can use our Nutrition Calculator to see the nutritional breakdown of items in your cart! Click the "Nutrition Calculator" button on the cart page to view detailed information about calories, protein, vitamins, and minerals for all your selected products.`;
+    }
+
     // Greetings
     if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
       return 'Hello! Welcome to Bubble Organic. How can I assist you today?';

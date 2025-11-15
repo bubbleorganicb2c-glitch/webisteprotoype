@@ -7,9 +7,12 @@ import { SearchModal } from "../components/ui/SearchModal";
 import React, { useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { PRODUCTS } from "../data/products";
+import NutritionCalculator from '../components/NutritionCalculator';
+import { Calculator } from 'lucide-react';
 
 function CartPage() {
   const { items, removeItem, clear } = useCart();
+  const [showNutritionCalculator, setShowNutritionCalculator] = React.useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,7 +38,18 @@ function CartPage() {
 
       <div className="pt-20 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold text-green-800 mb-8">Shopping Cart</h1>
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-3xl font-bold text-green-800">Shopping Cart</h1>
+            {items.length > 0 && (
+              <button
+                onClick={() => setShowNutritionCalculator(true)}
+                className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+              >
+                <Calculator size={18} />
+                Nutrition Calculator
+              </button>
+            )}
+          </div>
 
           {items.length === 0 ? (
             <div className="text-center py-16 bg-white/80 backdrop-blur-sm rounded-xl shadow-lg">
@@ -98,6 +112,10 @@ function CartPage() {
       <ScrollUpButton />
       <LoginModal />
       <SearchModal />
+      <NutritionCalculator
+        isOpen={showNutritionCalculator}
+        onClose={() => setShowNutritionCalculator(false)}
+      />
     </div>
   );
 }
