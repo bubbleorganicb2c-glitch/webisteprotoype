@@ -23,53 +23,76 @@ export const SearchModal: React.FC = () => {
     };
 
     return (
-        <div className="fixed inset-0 top-28 z-40 flex items-start justify-center p-6">
-            <div className="absolute inset-0 bg-black/30" onClick={closeSearch} />
-            <div className="bg-[#e7efd8]/90 backdrop-blur-lg z-50 w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-2xl border border-white/50 shadow-2xl flex flex-col">
-                <div className="p-4 border-b border-green-200">
+        <div className="fixed inset-0 top-20 z-50 flex items-start justify-center p-4">
+            <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={closeSearch} />
+            <div className="bg-white/95 backdrop-blur-md z-50 w-full max-w-2xl max-h-[75vh] overflow-hidden rounded-2xl border border-white/40 shadow-2xl flex flex-col">
+                <div className="p-6 border-b border-gray-200 bg-green-800 text-white rounded-t-2xl">
+                    <h2 className="text-xl font-bold mb-4">Search Products</h2>
                     <input
-                        className="w-full border border-green-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white/60"
-                        placeholder="Search products..."
+                        className="w-full border border-white/30 p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 bg-white/20 text-white placeholder-white/70"
+                        placeholder="Search for products, categories, or weights..."
                         value={query}
                         onChange={e => setQuery(e.target.value)}
                         autoFocus
                     />
                 </div>
-                <div className="flex-1 overflow-y-auto p-4">
+                <div className="flex-1 overflow-y-auto p-6">
                     {q && filteredProducts.length === 0 ? (
-                        <div className="text-center text-green-700 py-8">
-                            No products found for "{query}"
+                        <div className="text-center py-12">
+                            <div className="text-gray-400 text-4xl mb-4">🔍</div>
+                            <p className="text-gray-500 text-lg">No products found for "{query}"</p>
+                            <p className="text-sm text-gray-400 mt-2">Try searching with different keywords</p>
                         </div>
                     ) : q && filteredProducts.length > 0 ? (
-                        <div className="space-y-2">
+                        <div className="space-y-3">
+                            <p className="text-sm text-gray-600 mb-4">
+                                Found {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} for "{query}"
+                            </p>
                             {filteredProducts.slice(0, 10).map((product) => (
                                 <Link
                                     key={product.id}
                                     to={`/product/${product.id}`}
                                     onClick={handleProductClick}
-                                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/40 transition-colors border border-white/50"
+                                    className="flex items-center gap-4 p-4 rounded-xl hover:bg-green-50 transition-all border border-gray-100 hover:border-green-200 hover:shadow-md"
                                 >
                                     <img
                                         src={product.image}
                                         alt={product.name}
-                                        className="w-12 h-12 object-cover rounded-lg"
+                                        className="w-16 h-16 object-cover rounded-lg"
                                     />
                                     <div className="flex-1">
-                                        <h3 className="font-semibold text-green-900">{product.name}</h3>
-                                        <p className="text-sm text-green-700">{product.category}</p>
-                                        <p className="text-sm text-green-800 font-medium">₹{product.weights[0].price}</p>
+                                        <h3 className="font-semibold text-green-900 text-lg">{product.name}</h3>
+                                        <p className="text-sm text-green-700 mb-1">{product.category}</p>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-lg font-bold text-green-800">₹{product.weights[0].price}</span>
+                                            <span className="text-sm text-gray-500">({product.weights[0].label})</span>
+                                        </div>
+                                    </div>
+                                    <div className="text-green-600">
+                                        →
                                     </div>
                                 </Link>
                             ))}
                             {filteredProducts.length > 10 && (
-                                <div className="text-center text-green-600 py-2">
-                                    And {filteredProducts.length - 10} more results...
+                                <div className="text-center py-4">
+                                    <p className="text-gray-500">
+                                        And {filteredProducts.length - 10} more results...
+                                    </p>
+                                    <Link
+                                        to="/all-products"
+                                        onClick={handleProductClick}
+                                        className="inline-block mt-2 text-green-700 hover:text-green-800 font-medium"
+                                    >
+                                        View all products →
+                                    </Link>
                                 </div>
                             )}
                         </div>
                     ) : (
-                        <div className="text-center text-green-600 py-8">
-                            Start typing to search for products...
+                        <div className="text-center py-12">
+                            <div className="text-gray-300 text-6xl mb-4">🔍</div>
+                            <p className="text-gray-500 text-lg">Start typing to search for products</p>
+                            <p className="text-sm text-gray-400 mt-2">Search by name, category, or weight</p>
                         </div>
                     )}
                 </div>

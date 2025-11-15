@@ -68,14 +68,14 @@ export default function Navigation(props: any) {
 
                 {isDropdownOpen && (
                   <div
-                    className="absolute top-full left-0 w-72 bg-white rounded-lg shadow-2xl p-6 transition-all duration-200 origin-top pointer-events-auto"
+                    className="absolute top-full left-0 w-80 bg-white rounded-lg shadow-2xl p-6 transition-all duration-200 origin-top pointer-events-auto"
                     style={{ transformOrigin: 'top', zIndex: 50 }}
                   >
-                    <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="grid grid-cols-4 gap-4 mb-6">
                       {categories.map(cat => (
                         <Link
                           key={cat.slug}
-                          to={`/#${cat.slug}`}
+                          to={`/${cat.slug}`}
                           className="text-gray-700 hover:text-green-700 hover:font-semibold transition-all hover:scale-105"
                         >
                           {cat.name}
@@ -84,7 +84,7 @@ export default function Navigation(props: any) {
                     </div>
                     <div className="border-t border-gray-200 pt-4">
                       <Link
-                        to="/#products"
+                        to="/all-products"
                         className="text-green-700 font-semibold hover:text-green-800 flex items-center gap-2 transition-all hover:scale-105"
                       >
                         View All Products →
@@ -173,14 +173,14 @@ export default function Navigation(props: any) {
                 {categories.map(cat => (
                   <Link
                     key={cat.slug}
-                    to={`/#${cat.slug}`}
+                    to={`/${cat.slug}`}
                     className="text-gray-700 hover:text-green-700 hover:font-semibold transition-all hover:scale-105"
                   >
                     {cat.name}
                   </Link>
                 ))}
                 <Link
-                  to="/#products"
+                  to="/all-products"
                   className="text-green-700 font-semibold hover:text-green-800 flex items-center gap-2 mt-2 transition-all hover:scale-105"
                 >
                   View All Products →
