@@ -23,7 +23,7 @@ export const SearchModal: React.FC = () => {
     };
 
     return (
-        <div className="fixed inset-0 top-20 z-50 flex items-start justify-center p-4">
+        <div className="fixed inset-0 top-20 z-50 flex items-start justify-center p-4 sm:p-6">
             <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={closeSearch} />
             <div className="bg-white/95 backdrop-blur-md z-50 w-full max-w-2xl max-h-[75vh] overflow-hidden rounded-2xl border border-white/40 shadow-2xl flex flex-col">
                 <div className="p-6 border-b border-gray-200 bg-green-800 text-white rounded-t-2xl">
