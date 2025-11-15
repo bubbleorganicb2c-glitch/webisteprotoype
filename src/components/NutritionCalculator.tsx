@@ -205,6 +205,9 @@ const NutritionCalculator: React.FC<NutritionCalculatorProps> = ({ isOpen, onClo
               className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
               min="1"
               max="1000"
+              placeholder="Enter grams"
+              title="Serving size in grams"
+              aria-label="Serving size in grams"
             />
           </div>
 
