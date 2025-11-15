@@ -119,27 +119,27 @@ export default function Navigation(props: any) {
               <Search size={22} />
             </button>
 
-            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="View favourites">
+            <Link to="/favourites" className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="View favourites">
               <Heart size={22} />
               {favouritesCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {favouritesCount}
                 </span>
               )}
-            </button>
+            </Link>
 
             <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="User account">
               <User size={22} />
             </button>
 
-            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Shopping cart">
+            <Link to="/cart" className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Shopping cart">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -202,27 +202,27 @@ export default function Navigation(props: any) {
               <Search size={22} />
             </button>
 
-            <button onClick={() => openFavourites()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="View favourites">
+            <Link to="/favourites" className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="View favourites">
               <Heart size={22} />
               {favouritesCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {favouritesCount}
                 </span>
               )}
-            </button>
+            </Link>
 
             <button onClick={() => openLogin()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="User account">
               <User size={22} />
             </button>
 
-            <button onClick={() => openCart()} className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Shopping cart">
+            <Link to="/cart" className="transform transition-all duration-300 hover:scale-110 hover:text-green-600 relative" aria-label="Shopping cart">
               <ShoppingCart size={22} />
               {cartCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-green-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
-            </button>
+            </Link>
           </div>
         </div>
       </div>

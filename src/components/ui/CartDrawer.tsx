@@ -15,16 +15,18 @@ export const CartDrawer: React.FC = () => {
     const total = items.reduce((sum, it) => sum + (Number(it.price ?? 0) * (it.qty ?? 1)), 0);
 
     return (
-        <div className="fixed inset-0 z-50 flex">
-            <div className="flex-1" onClick={closeCart} />
-            <div className="w-80 bg-white p-4 shadow-lg">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-bold">Cart</h3>
-                    <button onClick={closeCart}>Close</button>
+        <div className="fixed top-20 inset-0 z-50">
+            <div className="absolute inset-0 bg-black/20" onClick={closeCart} />
+            <div className="absolute top-0 right-0 w-80 h-full bg-white shadow-xl border-l border-gray-200">
+                <div className="bg-green-800 text-white p-4 flex justify-between items-center">
+                    <h3 className="font-bold text-lg">Shopping Cart</h3>
+                    <button onClick={closeCart} className="text-white hover:text-gray-200 transition-colors">
+                        ✕
+                    </button>
                 </div>
-
+                <div className="p-4">
                 {items.length === 0 ? (
-                    <div>No items</div>
+                    <div className="text-center text-gray-500 py-8">Your cart is empty</div>
                 ) : (
                     <>
                         <ul className="space-y-3">
@@ -45,7 +47,7 @@ export const CartDrawer: React.FC = () => {
                                             </div>
                                         </div>
                                         <div className="flex flex-col items-end gap-1">
-                                            <button onClick={() => removeItem(it.id)} className="text-sm text-red-500">
+                                            <button onClick={() => removeItem(it.id)} className="text-sm text-red-500 hover:text-red-700 transition-colors">
                                                 Remove
                                             </button>
                                         </div>
@@ -60,12 +62,13 @@ export const CartDrawer: React.FC = () => {
                                 <div className="font-semibold">₹{total}</div>
                             </div>
                             <div className="mt-3 flex gap-2">
-                                <button onClick={clear} className="text-sm text-red-600">Clear</button>
-                                <button className="ml-auto bg-green-700 text-white px-3 py-1 rounded text-sm">Checkout</button>
+                                <button onClick={clear} className="text-sm text-red-600 hover:text-red-700 transition-colors">Clear</button>
+                                <button className="ml-auto bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded text-sm font-medium transition-colors">Checkout</button>
                             </div>
                         </div>
                     </>
                 )}
+                </div>
             </div>
         </div>
     );

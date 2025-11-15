@@ -9,9 +9,8 @@ import Footer from '../components/Footer';
 import Certifications from '../components/Certifications';
 import ScrollUpButton from '../components/ScrollUpButton';
 
-import { CartDrawer } from "../components/ui/CartDrawer";
+
 import { LoginModal } from "../components/ui/LoginModal";
-import { FavouritesDrawer } from "../components/ui/FavouritesDrawer";
 import { SearchModal } from "../components/ui/SearchModal";
 
 import { useState } from 'react';
@@ -36,9 +35,7 @@ function Home() {
       <Partnership />
       <Footer />
       <ScrollUpButton />
-      <CartDrawer />
       <LoginModal />
-      <FavouritesDrawer />
       <SearchModal />
     </div>
   );
