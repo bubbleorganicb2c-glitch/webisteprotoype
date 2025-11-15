@@ -3,6 +3,7 @@ import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 import { FavouritesProvider } from "./context/FavouritesContext";
 import { SearchProvider } from "./context/SearchContext";
+import Chatbot from './components/ui/Chatbot';
 import Home from './pages/Home';
 import ProductDetails from './pages/ProductDetails';
 import CartPage from './pages/CartPage';
@@ -43,6 +44,7 @@ function App() {
                 <Route path="/pulses" element={<PulsesPage />} />
                 <Route path="/bubble-organic-special-products" element={<SpecialProductsPage />} />
               </Routes>
+              <Chatbot />
             </CartProvider>
           </FavouritesProvider>
         </AuthProvider>
