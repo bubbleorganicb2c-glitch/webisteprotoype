@@ -34,7 +34,37 @@ const Chatbot: React.FC = () => {
   const generateBotResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase().trim();
 
-    // Product search
+    // Direct product name matching
+    const productMatch = PRODUCTS.find(p =>
+      message.includes(p.name.toLowerCase()) ||
+      p.name.toLowerCase().split(' ').some(word => message.includes(word))
+    );
+
+    if (productMatch) {
+      const weight = productMatch.weights[0];
+      return `"${productMatch.name}" is available in our ${productMatch.category} collection. Price: ₹${weight.price} for ${weight.label}. ${productMatch.description || ''} ${productMatch.howToUse ? `How to use: ${productMatch.howToUse}` : ''} Would you like to know more about this product?`;
+    }
+
+    // Direct category matching
+    const categories = ['spices', 'rice', 'nuts', 'masalas', 'millets', 'pulses', 'cereals', 'seeds', 'flours', 'bubble organic special products'];
+    const categoryMatch = categories.find(cat =>
+      message.includes(cat.toLowerCase()) ||
+      message.includes(cat.replace('bubble organic special products', 'special products'))
+    );
+
+    if (categoryMatch) {
+      const categoryProducts = PRODUCTS.filter(p =>
+        p.category.toLowerCase() === categoryMatch ||
+        (categoryMatch === 'special products' && p.category === 'Bubble Organic Special Products')
+      );
+
+      if (categoryProducts.length > 0) {
+        const productList = categoryProducts.map(p => `${p.name} (₹${p.weights[0].price} for ${p.weights[0].label})`).join(', ');
+        return `In our ${categoryMatch} category, we have: ${productList}. All our products are 100% organic and certified. Which one interests you?`;
+      }
+    }
+
+    // Product search (existing logic)
     if (message.includes('find') || message.includes('search') || message.includes('looking for')) {
       const searchTerms = message.replace(/(find|search|looking for)/g, '').trim();
       const foundProducts = PRODUCTS.filter(p =>
@@ -51,37 +81,82 @@ const Chatbot: React.FC = () => {
     }
 
     // Categories
-    if (message.includes('categories') || message.includes('types')) {
+    if (message.includes('categories') || message.includes('types') || message.includes('what do you sell') || message.includes('products available')) {
       return 'We offer: Spices, Cereals, Masalas, Nuts, Rice, Seeds, Millets, Flours, Pulses, and our special Bubble Organic products. Which category interests you?';
     }
 
     // Organic/certification
-    if (message.includes('organic') || message.includes('certified')) {
-      return 'All our products are 100% organic and certified. We source directly from farmers and ensure sustainable farming practices. Our products are free from chemicals and pesticides.';
+    if (message.includes('organic') || message.includes('certified') || message.includes('natural') || message.includes('chemical free')) {
+      return 'All our products are 100% organic and certified. We source directly from farmers and ensure sustainable farming practices. Our products are free from chemicals and pesticides. We also have FSSAI certification and organic certifications from recognized bodies.';
     }
 
     // Pricing/delivery
-    if (message.includes('price') || message.includes('cost')) {
-      return 'Our prices vary by product and weight. Most items start from ₹50-₹200. We offer bulk discounts for larger quantities. Check individual product pages for current pricing.';
+    if (message.includes('price') || message.includes('cost') || message.includes('expensive') || message.includes('cheap')) {
+      return 'Our prices vary by product and weight. Most items start from ₹50-₹200. We offer bulk discounts for larger quantities. Check individual product pages for current pricing. All prices include GST.';
     }
 
-    if (message.includes('delivery') || message.includes('shipping')) {
-      return 'We provide fast delivery across India. Orders are typically delivered within 2-5 business days. Free shipping on orders above ₹500!';
+    if (message.includes('delivery') || message.includes('shipping') || message.includes('when will i get') || message.includes('order time')) {
+      return 'We provide fast delivery across India. Orders are typically delivered within 2-5 business days. Free shipping on orders above ₹500! We also offer express delivery for urgent orders.';
     }
 
     // Contact/help
-    if (message.includes('contact') || message.includes('help') || message.includes('support')) {
-      return 'You can reach us at support@bubbleorganic.com or call +91-XXXXXXXXXX. We\'re here to help Monday-Saturday, 9 AM to 6 PM IST.';
+    if (message.includes('contact') || message.includes('help') || message.includes('support') || message.includes('call') || message.includes('email')) {
+      return 'You can reach us at support@bubbleorganic.com or call +91-XXXXXXXXXX. We\'re here to help Monday-Saturday, 9 AM to 6 PM IST. You can also visit our store or use the contact form on our website.';
     }
 
     // Nutrition calculator
-    if (message.includes('nutrition') || message.includes('calculator') || message.includes('nutrients')) {
+    if (message.includes('nutrition') || message.includes('calculator') || message.includes('nutrients') || message.includes('nutritional value') || message.includes('calories')) {
       return `You can use our Nutrition Calculator to see the nutritional breakdown of items in your cart! Click the "Nutrition Calculator" button on the cart page to view detailed information about calories, protein, vitamins, and minerals for all your selected products.`;
     }
 
+    // About the company
+    if (message.includes('about') || message.includes('company') || message.includes('bubble organic') || message.includes('who are you')) {
+      return 'Bubble Organic is committed to providing pure, organic, and chemical-free products directly from farmers. We ensure sustainable farming practices and offer a wide range of organic spices, grains, nuts, and specialty products. Our mission is to promote healthy living through natural, nutritious food.';
+    }
+
+    // Health benefits
+    if (message.includes('health') || message.includes('benefits') || message.includes('healthy') || message.includes('good for')) {
+      return 'Our organic products offer numerous health benefits: improved digestion, better nutrient absorption, stronger immunity, and reduced risk of chronic diseases. Organic foods are free from harmful pesticides and contain higher levels of antioxidants and essential nutrients.';
+    }
+
+    // Farming practices
+    if (message.includes('farming') || message.includes('grow') || message.includes('cultivation') || message.includes('sustainable')) {
+      return 'We work directly with farmers who practice sustainable and organic farming methods. This includes natural pest control, crop rotation, composting, and avoiding synthetic fertilizers. Our farmers follow traditional methods combined with modern organic practices.';
+    }
+
+    // Quality assurance
+    if (message.includes('quality') || message.includes('fresh') || message.includes('freshness') || message.includes('assurance')) {
+      return 'We maintain strict quality control from farm to your doorstep. All products undergo rigorous testing for purity, freshness, and organic certification. We ensure proper packaging and storage to maintain product quality and nutritional value.';
+    }
+
+    // Returns/refunds
+    if (message.includes('return') || message.includes('refund') || message.includes('exchange') || message.includes('damaged')) {
+      return 'We accept returns within 7 days of delivery for damaged or incorrect products. Please contact our support team with photos of the damaged goods. Refunds are processed within 3-5 business days after verification.';
+    }
+
+    // Bulk orders
+    if (message.includes('bulk') || message.includes('wholesale') || message.includes('large quantity') || message.includes('business')) {
+      return 'We offer special pricing for bulk orders. Contact our sales team at sales@bubbleorganic.com for wholesale rates and custom packaging options. Minimum order quantities apply for bulk discounts.';
+    }
+
+    // Certifications
+    if (message.includes('certification') || message.includes('certified') || message.includes('fssai') || message.includes('organic certificate')) {
+      return 'All our products are FSSAI certified and carry organic certifications. We have certifications from recognized bodies like PGS India, Jaivik Bharat, and others. You can view our certificates on the Certifications page.';
+    }
+
     // Greetings
-    if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+    if (message.includes('hello') || message.includes('hi') || message.includes('hey') || message.includes('good morning') || message.includes('good evening')) {
       return 'Hello! Welcome to Bubble Organic. How can I assist you today?';
+    }
+
+    // Thanks
+    if (message.includes('thank') || message.includes('thanks')) {
+      return 'You\'re welcome! Is there anything else I can help you with regarding our organic products?';
+    }
+
+    // Bye
+    if (message.includes('bye') || message.includes('goodbye') || message.includes('see you')) {
+      return 'Thank you for visiting Bubble Organic! Have a great day and stay healthy with our organic products.';
     }
 
     // Default responses
