@@ -1,9 +1,14 @@
-# TODO List for Enhancing Chatbot Product Response Functionality
+# TODO: Implement Review Addition Feature for Logged-in Customers
 
-- [x] Modify generateBotResponse in src/components/ui/Chatbot.tsx to add direct matching logic before existing keyword checks
-- [x] Add product name matching: Check if user message contains any product name (case-insensitive), then provide product details including price, description, and how to use
-- [x] Add category matching: Check if user message contains category names, then list all products in that category with brief info
-- [x] Keep existing search logic for messages with search keywords
-- [x] Ensure responses are helpful and include relevant product information
-- [x] Test the chatbot by running the app and querying direct product names like "almonds" or categories like "spices"
-- [x] Verify responses provide accurate product information
+## Overview
+Allow customers to add reviews to products when they are logged in. Reviews include rating (1-5 stars) and comment.
+
+## Steps to Complete
+- [x] Import useAuth hook in ProductDetails.tsx
+- [x] Add state for managing reviews (initialized from product.reviews)
+- [x] Add state for new review form (rating and comment)
+- [x] Modify reviews display to use state instead of static data
+- [x] Add review form UI for logged-in users (star rating selector, comment textarea, submit button)
+- [x] Implement submit logic to add new review to state and reset form
+- [x] Ensure form is only visible when user is logged in
+- [x] Test the feature by logging in and adding a review

@@ -27,7 +27,7 @@ export default function Partnership() {
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="w-24 h-24 object-contain md:filter md:grayscale hover:grayscale-0 active:grayscale-0 transition-all duration-300"
+                  className="w-24 h-24 object-contain hover:filter hover:grayscale active:filter active:grayscale transition-all duration-300"
                   loading="lazy"
                 />
               </a>

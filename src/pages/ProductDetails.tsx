@@ -2,8 +2,9 @@ import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useFavourites } from '../context/FavouritesContext';
+import { useAuth } from '../context/AuthContext';
 import { ShoppingCart, Heart, ArrowLeft } from 'lucide-react';
-import { PRODUCTS, ProductModel } from '../data/products';
+import { PRODUCTS, ProductModel, Review } from '../data/products';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import ScrollUpButton from '../components/ScrollUpButton';
@@ -19,10 +20,14 @@ function ProductDetails() {
 
   const { addItem } = useCart();
   const { ids: favouriteIds, toggleFavourite } = useFavourites();
+  const { user } = useAuth();
   const [selectedWeightIndex, setSelectedWeightIndex] = useState(0);
   const [animatePrice, setAnimatePrice] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [reviews, setReviews] = useState<Review[]>(product?.reviews || []);
+  const [newReviewRating, setNewReviewRating] = useState(5);
+  const [newReviewComment, setNewReviewComment] = useState('');
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -79,6 +84,22 @@ function ProductDetails() {
 
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 800);
+  };
+
+  const handleAddReview = () => {
+    if (!user || !newReviewComment.trim()) return;
+
+    const newReview: Review = {
+      id: Date.now().toString(),
+      user: user.name,
+      rating: newReviewRating,
+      comment: newReviewComment.trim(),
+      date: new Date().toLocaleDateString(),
+    };
+
+    setReviews(prev => [newReview, ...prev]);
+    setNewReviewComment('');
+    setNewReviewRating(5);
   };
 
   return (
@@ -256,7 +277,77 @@ function ProductDetails() {
             </div>
           </div>
 
+          {/* Reviews Section */}
+          <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50 mb-16">
+            <h3 className="text-xl font-semibold text-green-900 mb-6">Customer Reviews</h3>
 
+            {/* Add Review Form */}
+            <div className="mb-8">
+              <h4 className="text-lg font-semibold text-green-900 mb-4">Write a Review</h4>
+              {user ? (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-green-900 mb-2">Rating</label>
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          onClick={() => setNewReviewRating(star)}
+                          className={`text-2xl ${star <= newReviewRating ? 'text-yellow-400' : 'text-gray-300'} hover:text-yellow-400 transition-colors`}
+                        >
+                          ★
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-green-900 mb-2">Comment</label>
+                    <textarea
+                      value={newReviewComment}
+                      onChange={(e) => setNewReviewComment(e.target.value)}
+                      placeholder="Share your thoughts about this product..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
+                      rows={4}
+                    />
+                  </div>
+                  <button
+                    onClick={handleAddReview}
+                    disabled={!newReviewComment.trim()}
+                    className="bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Submit Review
+                  </button>
+                </div>
+              ) : (
+                <p className="text-gray-600">Please log in to add a review.</p>
+              )}
+            </div>
+
+            {/* Reviews */}
+            {reviews.length > 0 && (
+              <div className="space-y-4">
+                {reviews.map((review) => (
+                  <div key={review.id} className="border-b border-gray-200 pb-4 last:border-b-0 last:pb-0">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="font-semibold text-green-900">{review.user}</span>
+                      <div className="flex items-center gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <span
+                            key={i}
+                            className={`text-sm ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                          >
+                            ★
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 mb-2">{review.comment}</p>
+                    <p className="text-sm text-gray-500">{review.date}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Related Products */}
           <div className="bg-white/40 backdrop-blur-lg rounded-xl p-6 border border-white/50">
