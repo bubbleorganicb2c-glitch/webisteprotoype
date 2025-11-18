@@ -1,32 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-const blogPosts = [
-  {
-    id: 1,
-    title: 'Benefits of Organic Turmeric',
-    description: 'Discover the amazing health benefits of using organic turmeric in your daily diet.',
-    image: 'https://images.pexels.com/photos/4198939/pexels-photo-4198939.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-  {
-    id: 2,
-    title: 'The Power of Millets',
-    description: 'Learn why ancient grains like millets are making a comeback in modern nutrition.',
-    image: 'https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-  {
-    id: 3,
-    title: 'Organic vs Conventional',
-    description: 'Understanding the real difference between organic and conventional farming practices.',
-    image: 'https://images.pexels.com/photos/4750270/pexels-photo-4750270.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-  {
-    id: 4,
-    title: 'Spice Up Your Health',
-    description: 'How traditional Indian spices can boost your immune system naturally.',
-    image: 'https://images.pexels.com/photos/4198939/pexels-photo-4198939.jpeg?auto=compress&cs=tinysrgb&w=600',
-  },
-];
+import { blogPosts } from '../data/blogPosts';
 
 export default function BlogCarousel() {
   const [startIndex, setStartIndex] = useState(0);

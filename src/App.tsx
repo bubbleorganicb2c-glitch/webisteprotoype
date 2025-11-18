@@ -19,6 +19,8 @@ import MilletsPage from './pages/MilletsPage';
 import FloursPage from './pages/FloursPage';
 import PulsesPage from './pages/PulsesPage';
 import SpecialProductsPage from './pages/SpecialProductsPage';
+import AboutUsPage from './pages/AboutUsPage';
+import BlogPage from './pages/BlogPage';
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
                 <Route path="/flours" element={<FloursPage />} />
                 <Route path="/pulses" element={<PulsesPage />} />
                 <Route path="/bubble-organic-special-products" element={<SpecialProductsPage />} />
+                <Route path="/about-us" element={<AboutUsPage />} />
+                <Route path="/blog" element={<BlogPage />} />
               </Routes>
               <Chatbot />
             </CartProvider>

@@ -1,11 +1,8 @@
-# TODO: Create Attractive Login/Signup Modal
+# Blog Page Creation Tasks
 
-## Tasks
-- [x] Update AuthContext to support signup (mock implementation)
-- [x] Enhance LoginModal with tabs for Login and Signup
-- [x] Style the modal with semi-transparent background, green accents, and system fonts
-- [x] Add password fields for both login and signup
-- [x] Include form validation and error handling
-- [x] Add icons and animations for better UX
-- [x] Test the modal on different screen sizes
-- [x] Run the development server to verify appearance over the background
+- [x] Create src/data/blogPosts.ts to hold blog data
+- [x] Create src/pages/BlogPage.tsx to display blogs in a full page layout
+- [x] Update src/components/BlogCarousel.tsx to import data from blogPosts.ts
+- [x] Add /blog route in src/App.tsx
+- [x] Update Navigation.tsx to link to /blog instead of /#blog
+- [x] Test the blog page functionality (Dev server running on http://localhost:5174/)

@@ -117,10 +117,10 @@ export default function Navigation(props: any) {
               </div>
 
 
-              <Link to="/#about" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
+              <Link to="/about-us" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
                 About Us
               </Link>
-              <Link to="/#blog" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
+              <Link to="/blog" className="text-gray-700 hover:text-green-600 transition-all font-medium hover:scale-105">
                 Blog
               </Link>
             </nav>
@@ -313,10 +313,10 @@ export default function Navigation(props: any) {
             )}
           </div>
 
-          <Link to="/#about" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
+          <Link to="/about-us" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
             About Us
           </Link>
-          <Link to="/#blog" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
+          <Link to="/blog" className="text-gray-700 hover:text-green-600 font-medium transition-all hover:scale-105">
             Blog
           </Link>
 
