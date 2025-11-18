@@ -84,12 +84,14 @@ export default function BlogCarousel() {
             <button
               onClick={prevSlide}
               className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-white/90 hover:bg-white p-2 rounded-full transition-all shadow-lg"
+              aria-label="Previous blog post"
             >
               <ChevronLeft size={24} className="text-green-800" />
             </button>
             <button
               onClick={nextSlide}
               className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white/90 hover:bg-white p-2 rounded-full transition-all shadow-lg"
+              aria-label="Next blog post"
             >
               <ChevronRight size={24} className="text-green-800" />
             </button>
